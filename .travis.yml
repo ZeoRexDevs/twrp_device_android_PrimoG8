@@ -25,17 +25,18 @@ before_script:
   - tar -xJf twrp.tar.xz --directory $HOME/twrp/ && rm twrp.tar.xz
 script:
   - cd $HOME/twrp/ && git clone https://github.com/ZeoRexDevs/twrp_device_android_PrimoG8.git device/WALTON/Primo_G8
-  - https://github.com/ZeoRexDevs/device_generic_mtk_twrpbuilder/ device/generic/twrpbuilder
-  - git clone https://github.com/akhilnarang/scripts.git akhil/ && cd akhil/
-  - bash setup/ccache.sh 1>/dev/null && bash setup/ninja.sh 1>/dev/null
-  - cd .. && rm -rf akhil/
-  - export USE_CCACHE=1 && export ANDROID_CCACHE_DIR="/mnt/ccache" && export ANDROID_CCACHE_SIZE="5G"
-  - export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" >> $HOME/.bashrc
+  - git clone https://github.com/ZeoRexDevs/device_generic_mtk_twrpbuilder/ device/generic/twrpbuilder
   - |
     docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/twrp/:rw,z" yshalsager/lineageos:14.1 bash << EOF
     cd /home/twrp/
+    git clone https://github.com/akhilnarang/scripts.git akhil/ && cd akhil/
+    bash setup/ccache.sh
+    bash setup/ninja.sh
+    export USE_CCACHE=1 && export ANDROID_CCACHE_DIR="/mnt/ccache" && export ANDROID_CCACHE_SIZE="5G"
+    export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" >> $HOME/.bashrc
+    cd .. && rm -rf akhil/
     source build/envsetup.sh && lunch omni_Primo_G8-eng
-    mka -j32 recoveryimage 1>/dev/null
+    make -j32 recoveryimage
     exit
     EOF
 after_success:
