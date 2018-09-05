@@ -35,22 +35,23 @@ script:
     export USE_CCACHE=1 && export ANDROID_CCACHE_DIR="/mnt/ccache" && export ANDROID_CCACHE_SIZE="5G"
     export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" >> $HOME/.bashrc
     cd .. && rm -rf akhil/
-    source build/envsetup.sh && lunch omni_Primo_G8-eng
-    mka recoveryimage
+    export KBUILD_BUILD_USER="fr3aky" && export KBUILD_BUILD_HOST="Phantom_Zone"
+    source build/envsetup.sh && lunch omni_Primo_G8-eng && mka recoveryimage
     exit
     EOF
 after_success:
   - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
-  - cp $HOME/twrp/out/target/product/Primo_G8/recovery.img $HOME/twrp/TWRP-$version-Primo_G8-$(date +"%Y%m%d")-unofficial.img
+  - cp $HOME/twrp/out/target/product/Primo_G8/recovery.img $HOME/twrp/TWRP-$version-Primo_G8-$(date +"%Y%m%d")-Unofficial.img
   - cd $HOME/twrp/
-  - curl -s --upload-file TWRP-$version-Primo_G8-$(date +"%Y%m%d")-unofficial.img https://transfer.sh/ && echo ""
-  - wput TWRP-$version-Primo_G8-$(date +"%Y%m%d")-unofficial.img ftp://"$FTPUser":"$FTPPass"@"$FTPHost"//TWBuild-$(date +%Y%m%d-%H%M)/
+  - curl -s --upload-file TWRP-$version-Primo_G8-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
+  - wput TWRP-$version-Primo_G8-$(date +"%Y%m%d")-Unofficial.img ftp://"$FTPUser":"$FTPPass"@"$FTPHost"//TWBuild-$(date +%Y%m%d-%H%M)/
 deploy:
   skip_cleanup: true
   provider: releases
   api_key:
     secure: "lKXbynSG8mYx0KWkeccJ6NWMECNRApTY8hj+BDNWfMNlTQcSZE6mZmmEoAQ7okC7NUlP1EXFVUj8o88osTAqlOBPxOA51WcI3l+/Ty9JYK3RHriGfiEUzw6VtHxqsXPloGGtWTY/gv277wEL5oWff20H5fttxv7+5cMT8MSiRbwCyBMwM+hsPi+r7KV/JgqtJ3lypdTJ950MjxXlEq2ryDSFKs8a2jZ1Jo6G2E9AmtdSlK52DuGueqG8hYTeaKpxyTAA9IFvnGfePXRYWfJEJeGRiMYLXMBj7sLn2+Rv8iaDPWB2oaQ3/vbHoWGLQd+D/TWTnjPqm2+AoHN/VSr6ebPjvwPVP0MZ3GQOd5vG0vWB2C7sAMftsSLXHNDSvFfodI7/jw9nzfET9YyT6KTluOO0E0wXP+AXbFAle9ouJCOoJVfgK8W0Awdpq+4J2pIUzA5XPKVZTqTX5phXKbLufPDY7+fKwDh9E/p8gNmdEke/9fTmEIiK7z6qq490ESY1LtykGV2SEoa8g+1hwe00oqQrmj09M9pQSI3wxqTr6nS8k9cU1wbLQjMYN7gg6U6lw4mlHWt6Dh7Pvman6l7bRPN8PdZyFDOknH6c0GpPoZmjiBrGpD57js1zSKH/EegGNRe/ec7as9mXWmAhMhLQWxE75+ZY9x+2rGCIBasvmuk="
-  file: $HOME/twrp/TWRP-$version-*.img
+  file_glob: true
+  file: $HOME/twrp/TWRP*.img
   on:
     tags: false
     repo: ZeoRexDevs/twrp_device_android_PrimoG8
