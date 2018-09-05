@@ -25,16 +25,17 @@ before_script:
   - tar -xJf twrp.tar.xz --directory $HOME/twrp/ && rm twrp.tar.xz
 script:
   - cd $HOME/twrp/ && git clone https://github.com/ZeoRexDevs/twrp_device_android_PrimoG8.git device/WALTON/Primo_G8
-  - git clone https://github.com/ZeoRexDevs/device_generic_mtk_twrpbuilder device/generic/twrpbuilder
+  - wget -q 'https://raw.githubusercontent.com/ZeoRexDevs/device_generic_mtk_twrpbuilder/android-5.1/BoardConfig32.mk' -O device/generic/twrpbuilder/BoardConfig32.mk
   - git clone https://github.com/akhilnarang/scripts.git akhil/ && cd akhil/
-  - bash setup/ccache.sh && bash setup/ninja.sh
+  - bash setup/ccache.sh 1>/dev/null && bash setup/ninja.sh 1>/dev/null
   - cd .. && rm -rf akhil/
   - export USE_CCACHE=1 && export ANDROID_CCACHE_DIR="/mnt/ccache" && export ANDROID_CCACHE_SIZE="5G"
   - export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" >> $HOME/.bashrc
   - |
     docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/twrp/:rw,z" yshalsager/lineageos:14.1 bash << EOF
     cd /home/twrp/
-    source build/envsetup.sh && lunch omni_Primo_G8-eng && make -j32 recoveryimage 1>/dev/null
+    source build/envsetup.sh && lunch omni_Primo_G8-eng
+    mka -j32 recoveryimage 1>/dev/null
     exit
     EOF
 after_success:
