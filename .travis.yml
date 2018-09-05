@@ -1,0 +1,60 @@
+os: linux
+dist: xenial
+sudo: required
+git:
+  depth: 3
+addons:
+  apt:
+    update:
+    - true
+    packages:
+    - wput
+env:
+  global:
+    - secure: "E3QlfrD+m1vGW/+c5ZD4j9IG74OBHk3CLHzNZmPy4HmUF1ZJFa03qIB6iVWZBfntvrs+uDiwhmaRBwlTZtfaE1Hq1EQTT41/s7avZuhxahiAHlOrubpunnXtdd3f3XzQDr24fvnH75UELJ6DSWAAG+Q7v7ACiTX6g5T2FqW1u3n/IhffUO52/ZxtTL5Og00870xQrXc5lhN6sdyI051mqiD8KSLKQN0W+SVD8eLi4q7un+3JXSXaJoPpYkCFBezWZ9DHTXMgG2hXFo5UbVmaOfhBFxjMxYyGgKspVlURquw/v5qZ30QULcYfm8OJquKPVPNagb9JT21p2rzdqff2qlVFAUCy+SvGKbbEt+nkc+yLIm1wjnC3KFN3NJIDOv4o6V3VLD/wETXAoNShteGNIo+5lULS3hIVq93izcw5m8NZ703Hm4RXs7EbzZqCaiER6cuWN+Z8hY2/qkNf/S7FYKQf7o2gY8Dqlm9qJ/cFTIn13OAb1QpQ1iRCQmbEOEgBA8Hm7wh3zxni2slTNKbU8zLw1UgjrcpUEDVoefwlyFZAhzS2/w5jR0uLW/nlKdj95UA0N+jD6OPzDGsxu3CY/EPJP61Bs8ZkGhV0iURoZ2NcI9VCvFE6Eokxw+LW18c6xLIlxx2oXozJ28GWjyzBV3nLPmy0AxXagyvBKppkrnw="
+    - secure: "FE17XGLMbuZfj4k3ScslCq6y81OPXd2tRv7uT/O/gkPQg8Rzcv+OifBoMs5Zr8g9tA9sU8+q572l3JYTUGmwdJTNMpWldmjgFrpwUVM1Nr3H3LDLfXWmTcvBb0ohQxVF5TDpWkFmCW232mBg7w3bGnykYXgOpyMyON2tz39t6/XDDhFlF7KSdCpg8bhh0wvF4MouV+1JAc48D09V3oNVFkarb+aO53dE99v+ijTbApMST6eXJqfwSuXGkbQQzXfMbEcEq+HIT+gl92CkoT9jJyvI+aqNN3w0Wa9nL/xoTMywbJATu+wgNDZ+B67kRw6B2ijxPzs5zLP+kwNIxjM1gANUZXjyuonfbEjtEeHR9z2x7zM5tUEnZOWohtHh+LCMnM69tbvcyhaTMcB3kmF9qkPi3jNeTRMg/9vSfUC+ZvcG+Kbs7wavnTOXxXzs035oqqDtC+SAFvqtP6Vllas+RjSgndhSLE15h0G7/zvfoLnG6ziBkAoh9CXvEGclIYMweMOb7JaECRCKZeZYYdI0onQmlLaI1AFr09wda7nqHMcPi0gf22N4HComeoduTjYCxh5XIZ02GQ/tTKjvGOlCP1oswrldPWOkdh5dkr7TXSo0Vdr8tPwqGwAT23LpTAo4Z4RpEgTnRILjxc6v1v5+jJaf9OmmswvshXHR4/o9oaA="
+    - secure: "J2qSOe3uImz49IZVta2GE6kNNMx5QE8/BSDuAXEi4owBd6P9ABmykSmC5chlMOHvCNJZqcBlLwosK79eMBB9JhZr9w4dSw3MsLdBm9iUBiuwOFVq9AT06gGprSe7hEXUpM04YJywnqoCda2qYRgcgdChjg8ASJAxTWpXta/FrDqAqPDjb0eqLY+bZ018EXkIVJVvxSb/U96zFXdFi88gFC8Ym7ZFzdlrnR9Zn7L9rPhCbb9LjReeMDRqMjwd68Ylr64oLlvJGjGHj1ZDfOCOgzFdAxRHeYX0isudha6Bh7FVkHXGkm+eYSgQVJfHIjM28B2FApL7TcQSupbsVqiD/YJjdZJ2WyT6ut9xTRO+U24n3cEgQ8qKN8gN6IM2U4TzyTZaPPaGrbRbttyU34zjQH8xj5RSYUuKnLB6bnYQ9VtPOrwaewXa35qU+jMB32F3Zk9cJXw8qB7HokPGqE3Sd+Lr1w9Q6KSeoDO87wBbV3i3fS/CM2vi3N1dsKQOZ38kYFDC5+GoELe40Uh13pKPgeEg69FjDQd7GZJVw4FgxFUlh6oBFMIxM0gccbxDwzwIWA/UMrOSnVasLxZcYaD8swqfLjYTVCuE6KzDUmRL/q8ajLQiZX6SFFhyyNUA5ALEKLO00xM7w1Fmpaxxv8OEIPeCZN/qg/jkp2qtFALF37A="
+services:
+  - docker
+before_install:
+  - docker pull yshalsager/cyanogenmod:latest
+before_script:
+  - cd $HOME && mkdir twrp
+  - wget -q https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.2.3-20180830/MinimalOmniRecovery-twrp-7.1-norepo-20180830.tar.xz
+    -O $HOME/twrp.tar.xz
+  - tar -xJf twrp.tar.xz --directory $HOME/twrp/ && rm twrp.tar.xz
+script:
+  - cd $HOME/twrp/ && git clone https://github.com/ZeoRexDevs/twrp_device_android_PrimoG8.git device/WALTON/Primo_G8
+  - git clone https://github.com/ZeoRexDevs/device_generic_mtk_twrpbuilder device/generic/twrpbuilder
+  - |
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/cmbuild/twrp/:rw,z" yshalsager/cyanogenmod bash << EOF
+    cd /home/cmbuild/twrp/
+    source build/envsetup.sh && lunch omni_Primo_G8-eng && make -j32 recoveryimage 1>/dev/null
+    exit
+    EOF
+after_success:
+  - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
+  - cp $HOME/twrp/out/target/product/Primo_G8/recovery.img $HOME/twrp/TWRP-$version-Primo_G8-$(date +"%Y%m%d")-unofficial.img
+  - cd $HOME/twrp/
+  - curl -s --upload-file TWRP-$version-Primo_RX5-$(date +"%Y%m%d")-unofficial.img https://transfer.sh/ && echo ""
+  - wput TWRP-$version-Primo_RX5-$(date +"%Y%m%d")-unofficial.img ftp://"$FTPUser":"$FTPPass"@"$FTPHost"//TWBuild-$(date +%Y%m%d-%H%M)/
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: "lKXbynSG8mYx0KWkeccJ6NWMECNRApTY8hj+BDNWfMNlTQcSZE6mZmmEoAQ7okC7NUlP1EXFVUj8o88osTAqlOBPxOA51WcI3l+/Ty9JYK3RHriGfiEUzw6VtHxqsXPloGGtWTY/gv277wEL5oWff20H5fttxv7+5cMT8MSiRbwCyBMwM+hsPi+r7KV/JgqtJ3lypdTJ950MjxXlEq2ryDSFKs8a2jZ1Jo6G2E9AmtdSlK52DuGueqG8hYTeaKpxyTAA9IFvnGfePXRYWfJEJeGRiMYLXMBj7sLn2+Rv8iaDPWB2oaQ3/vbHoWGLQd+D/TWTnjPqm2+AoHN/VSr6ebPjvwPVP0MZ3GQOd5vG0vWB2C7sAMftsSLXHNDSvFfodI7/jw9nzfET9YyT6KTluOO0E0wXP+AXbFAle9ouJCOoJVfgK8W0Awdpq+4J2pIUzA5XPKVZTqTX5phXKbLufPDY7+fKwDh9E/p8gNmdEke/9fTmEIiK7z6qq490ESY1LtykGV2SEoa8g+1hwe00oqQrmj09M9pQSI3wxqTr6nS8k9cU1wbLQjMYN7gg6U6lw4mlHWt6Dh7Pvman6l7bRPN8PdZyFDOknH6c0GpPoZmjiBrGpD57js1zSKH/EegGNRe/ec7as9mXWmAhMhLQWxE75+ZY9x+2rGCIBasvmuk="
+  file: $HOME/twrp/TWRP-$version-*.img
+  on:
+    tags: false
+    repo: ZeoRexDevs/twrp_device_android_PrimoG8
+    branch: master
+branches:
+  only:
+  - master
+  - stable
+  except:
+  - /^(?i:untagged)-.*$/
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+notifications:
+  email:
+  - rokibhasansagar2014@outlook.com
