@@ -26,6 +26,11 @@ before_script:
 script:
   - cd $HOME/twrp/ && git clone https://github.com/ZeoRexDevs/twrp_device_android_PrimoG8.git device/WALTON/Primo_G8
   - git clone https://github.com/ZeoRexDevs/device_generic_mtk_twrpbuilder device/generic/twrpbuilder
+  - git clone https://github.com/akhilnarang/scripts.git akhil/ && cd akhil/
+  - bash setup/ccache.sh && bash setup/ninja.sh
+  - cd .. && rm -rf akhil/
+  - export USE_CCACHE=1 && export ANDROID_CCACHE_DIR="/mnt/ccache" && export ANDROID_CCACHE_SIZE="5G"
+  - export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" >> $HOME/.bashrc
   - |
     docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/twrp/:rw,z" yshalsager/lineageos:14.1 bash << EOF
     cd /home/twrp/
