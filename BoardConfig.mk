@@ -67,6 +67,6 @@ TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilt/zImage-dtb
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32S1,32S1 androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS := --kernel_addr 0x80008000 --kernel_offset 0x00008000 --kernel_size 6565542 --ramdisk_addr 0x84000000 --ramdisk_offset 0x04000000 --ramdisk_size 4287233 --second_addr 0x80f00000 --second_offset 0x00f00000 --tags_addr 0x8e000000 --tags_offset 0x0e000000
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x04000000 --second_offset 0x00f00000 --tags_offset 0x0e000000
 
 include device/generic/twrpbuilder/BoardConfig32.mk
