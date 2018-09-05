@@ -17,7 +17,7 @@ env:
 services:
   - docker
 before_install:
-  - docker pull yshalsager/cyanogenmod:latest
+  - docker pull yshalsager/lineageos:14.1
 before_script:
   - cd $HOME && mkdir twrp
   - wget -q https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.2.3-20180830/MinimalOmniRecovery-twrp-7.1-norepo-20180830.tar.xz
@@ -27,8 +27,8 @@ script:
   - cd $HOME/twrp/ && git clone https://github.com/ZeoRexDevs/twrp_device_android_PrimoG8.git device/WALTON/Primo_G8
   - git clone https://github.com/ZeoRexDevs/device_generic_mtk_twrpbuilder device/generic/twrpbuilder
   - |
-    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/cmbuild/twrp/:rw,z" yshalsager/cyanogenmod bash << EOF
-    cd /home/cmbuild/twrp/
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/twrp/:rw,z" yshalsager/lineageos:14.1 bash << EOF
+    cd /home/twrp/
     source build/envsetup.sh && lunch omni_Primo_G8-eng && make -j32 recoveryimage 1>/dev/null
     exit
     EOF
