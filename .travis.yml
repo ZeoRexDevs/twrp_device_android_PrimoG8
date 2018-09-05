@@ -36,15 +36,15 @@ script:
     export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" >> $HOME/.bashrc
     cd .. && rm -rf akhil/
     source build/envsetup.sh && lunch omni_Primo_G8-eng
-    make -j32 recoveryimage
+    mka recoveryimage
     exit
     EOF
 after_success:
   - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
   - cp $HOME/twrp/out/target/product/Primo_G8/recovery.img $HOME/twrp/TWRP-$version-Primo_G8-$(date +"%Y%m%d")-unofficial.img
   - cd $HOME/twrp/
-  - curl -s --upload-file TWRP-$version-Primo_RX5-$(date +"%Y%m%d")-unofficial.img https://transfer.sh/ && echo ""
-  - wput TWRP-$version-Primo_RX5-$(date +"%Y%m%d")-unofficial.img ftp://"$FTPUser":"$FTPPass"@"$FTPHost"//TWBuild-$(date +%Y%m%d-%H%M)/
+  - curl -s --upload-file TWRP-$version-Primo_G8-$(date +"%Y%m%d")-unofficial.img https://transfer.sh/ && echo ""
+  - wput TWRP-$version-Primo_G8-$(date +"%Y%m%d")-unofficial.img ftp://"$FTPUser":"$FTPPass"@"$FTPHost"//TWBuild-$(date +%Y%m%d-%H%M)/
 deploy:
   skip_cleanup: true
   provider: releases
