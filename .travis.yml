@@ -21,11 +21,11 @@ before_install:
 install: true
 matrix:
   include:
-    - name: "Eng Built"
+    - name: "TWRP Build Variant eng"
       env: BuildVar=eng
-    - name: "Eng Built"
+    - name: "TWRP Build Variant user"
       env: BuildVar=user
-    - name: "Eng Built"
+    - name: "TWRP Build Variant userdebug"
       env: BuildVar=userdebug
 before_script:
   - cd $HOME && mkdir twrp
