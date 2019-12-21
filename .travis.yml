@@ -19,14 +19,6 @@ services:
 before_install:
   - docker pull yshalsager/lineageos:14.1
 install: true
-matrix:
-  include:
-    - name: "TWRP Build Variant eng"
-      env: BuildVar=eng
-    - name: "TWRP Build Variant user"
-      env: BuildVar=user
-    - name: "TWRP Build Variant userdebug"
-      env: BuildVar=userdebug
 before_script:
   - cd $HOME && mkdir twrp
   - wget -q https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.2.3-20180830/MinimalOmniRecovery-twrp-7.1-norepo-20180830.tar.xz
@@ -38,15 +30,16 @@ script:
   - |
     docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/twrp/:rw,z" yshalsager/lineageos:14.1 bash << EOF
     cd /home/twrp/
-    source build/envsetup.sh && lunch omni_Primo_G8-$BuildVar && mka recoveryimage
+    source build/envsetup.sh && lunch omni_Primo_G8-userdebug
+    mka recoveryimage
     exit
     EOF
 after_success:
   - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
-  - cp $HOME/twrp/out/target/product/Primo_G8/recovery.img $HOME/twrp/TWRP-$version-Primo_G8-$BuildVar-$(date +"%Y%m%d")-Unofficial.img
+  - cp $HOME/twrp/out/target/product/Primo_G8/recovery.img $HOME/twrp/TWRP-$version-Primo_G8-userdebug-$(date +"%Y%m%d")-Unofficial.img
   - cd $HOME/twrp/
-  - curl -s --upload-file TWRP-$version-Primo_G8-$BuildVar-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
-  - wput TWRP-$version-Primo_G8-$BuildVar-$(date +"%Y%m%d")-Unofficial.img ftp://"$FTPUser":"$FTPPass"@"$FTPHost"//TWBuild-$(date +%Y%m%d-%H%M)/
+  - curl -s --upload-file TWRP-$version-Primo_G8-userdebug-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
+  - wput TWRP-$version-Primo_G8-userdebug-$(date +"%Y%m%d")-Unofficial.img ftp://"$FTPUser":"$FTPPass"@"$FTPHost"//TWBuild-$(date +%Y%m%d-%H%M)/
 deploy:
   skip_cleanup: true
   provider: releases
