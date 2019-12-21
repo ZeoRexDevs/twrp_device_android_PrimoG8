@@ -30,6 +30,7 @@ script:
   - |
     docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/twrp/:rw,z" yshalsager/lineageos:14.1 bash << EOF
     cd /home/twrp/
+    rm -rf bootable/recovery && git clone https://github.com/omnirom/android_bootable_recovery --single-branch -b android-9.0 bootable/recovery
     source build/envsetup.sh && lunch omni_Primo_G8-userdebug
     mka recoveryimage
     exit
